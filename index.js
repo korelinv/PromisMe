@@ -63,15 +63,15 @@ let subtraction = describe('test subtraction', function($scope) {
 let buy = describe('buy', function($scope) {
 
     let params = $scope.$options.params;
-    let buyMethod = (name) => console.log(`${name} bought smth`);
+    let buyMethod = (customer, quantity, item) => console.log(`${customer} bought ${quantity} positions of "${item}"`);
 
-    buyMethod(params.name);
+    buyMethod(params.customer, params.quantity, params.item);
     $scope.lastCustomer = params.name;
 
     return $scope;
 });
 
-let lastCustomer = describe('last customer', function($scope) {
+let checkLastCustomer = describe('last customer', function($scope) {
 
     let params = $scope.$options.params;
 
@@ -86,7 +86,11 @@ describe('feature simple maths', function($scope) {
 })([1,2,3])()
     .then(addition([1, 2, 3]))
     .then(subtraction([1, 2, -1]))
-    .then(buy({name: 'Bob'}))
-    .then(lastCustomer('Alice'))
+    .then(buy({
+        customer: 'Bob',
+        quantity: 10,
+        item: 'coke (0.33L can)'
+    }))
+    .then(checkLastCustomer('Alice'))
     .then((r) => console.log(r))
     .catch((e) => console.log(e));
