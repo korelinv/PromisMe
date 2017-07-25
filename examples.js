@@ -1,31 +1,6 @@
 const assert = require('assert');
 const describe = require('./index');
 
-let addition = describe('test addition', function($scope) {
-
-    let params = $scope.$options.params;
-
-    let summ = params.pop();
-    let summands = params;
-
-    assert.ok(summ === summands[0] + summands[1]);
-
-    return $scope;
-});
-
-let subtraction = describe('test subtraction', function($scope) {
-
-    let params = $scope.$options.params;
-
-    let summ = params.pop();
-    let summands = params;
-
-    assert.ok(summ === summands[0] - summands[1]);
-
-    return $scope;
-});
-
-
 let buy = describe('buy', function($scope) {
 
     let params = $scope.$options.params;
@@ -46,17 +21,28 @@ let checkLastCustomer = describe('last customer', function($scope) {
     return $scope;
 });
 
+let params = {
+    param1: 'foo',
+    param2: 'bar'
+};
+let scope = {
+    value1: 100,
+    value2: [1, 2, 3],
+    value3: (w) => (w + 1)
+};
 
 describe('feature simple maths', function($scope) {
+
+    console.log(`initial parameters: ${JSON.stringify($scope.$options.params)}`);
+    console.log(`initial scope: ${JSON.stringify($scope,null,'  ')}`);
+
     return $scope;
-})([1,2,3])()
-    .then(addition([1, 2, 3]))
-    .then(subtraction([1, 2, -1]))
+})(params)(scope)
     .then(buy({
         customer: 'Bob',
         quantity: 10,
         item: 'coke (0.33L can)'
     }))
-    .then(checkLastCustomer('Alice'))
-    .then((r) => console.log(r))
+    //.then(checkLastCustomer('Alice'))
+    .then((r) => console.log('done'))
     .catch((e) => console.log(e));
