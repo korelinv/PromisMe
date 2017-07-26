@@ -23,8 +23,10 @@ Main concept is to use promise chains. Like this:
         .catch(ReportFailure);
 ```
 
+Althou it's not "real" functioning code but you've got the idea.
 
-Here is simple testing scenario:
+
+Now here is simple testing scenario:
 
 ``` javascript
     // declaring scenario
@@ -42,6 +44,11 @@ Here is simple testing scenario:
         .catch((error) => console.log(error));
 
 ```
+
+This scenario logically consist of one step only wich is called 'i++'.
+In reality there are two of them.
+First one is 'scenario' and the second one is 'i++'.
+This framework doesn't see te difference between step and scenario declarations.
 
 Now lets make our first test more modular
 
