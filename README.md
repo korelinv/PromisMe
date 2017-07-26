@@ -118,3 +118,27 @@ let Increment = describe('i++', ($scope) => {
 ```
 
 Pretty much everything could be passed as a parameter to a step.
+
+## Groups
+
+We can also group steps like this:
+
+``` javascript
+let Before = describe('before', doSmthBefore);
+let After = describe('after', doSmthAfter);
+let Action = describe('action', performaction);
+let Prepare = describe('prepare', doPreparations);
+let Continue = describe('continue', doSmthElse);
+
+let Group = describe('group', ($scope) => {
+    return Before()($scope)
+        .then(Action())
+        .then(After());
+});
+```
+
+``` javascript
+    .then(Prepare())
+    .then(Group())
+    .then(Continue())
+```
