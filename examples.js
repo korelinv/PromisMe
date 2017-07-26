@@ -7,7 +7,7 @@ let buy = describe('buy', function($scope) {
     let buyMethod = (customer, quantity, item) => console.log(`${customer} bought ${quantity} positions of "${item}"`);
 
     buyMethod(params.customer, params.quantity, params.item);
-    $scope.lastCustomer = params.name;
+    $scope.lastCustomer = params.customer;
 
     return $scope;
 });
@@ -43,6 +43,6 @@ describe('feature simple maths', function($scope) {
         quantity: 10,
         item: 'coke (0.33L can)'
     }))
-    //.then(checkLastCustomer('Alice'))
+    .then(checkLastCustomer('Bob'))
     .then((r) => console.log('done'))
     .catch((e) => console.log(e));
