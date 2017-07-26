@@ -23,7 +23,7 @@ Main concept is to use promise chains. Like this:
         .catch(ReportFailure);
 ```
 
-Althou it's not "real" functioning code but you've got the idea.
+Although it's not "real" code but you've got the idea.
 
 
 Now here is simple testing scenario:
