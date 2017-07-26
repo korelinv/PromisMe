@@ -8,11 +8,11 @@ Here is simple testing scenario:
 
 ``` javascript
     // declaring scenario
-    describe('scenario', ($scope) => $scope)({})({increment: 0})
+    describe('scenario', ($scope) => $scope)({})({i: 0})
 
         // declaring step
-        .then(describe('step', ($scope) => {
-            $scope.increment += 1;
+        .then(describe('i++', ($scope) => {
+            $scope.i++;
 
             return $scope;
          })())
@@ -28,8 +28,8 @@ Main idea is to use promise chains to mantain scenarios step order.
 Now lets make our first test more modular
 
 ``` javascript
-let Increment = describe('step', ($scope) => {  
-    $scope.increment += 1;
+let Increment = describe('i++', ($scope) => {  
+    $scope.i++;
 
     return $scope;
 })
