@@ -10,7 +10,7 @@ let Increment = describe('i++', ($scope) => {
 });
 
 let Log = describe('log', ($scope) => {
-    let params = $scope.$options.params;
+    let params = $scope.$params;
     console.log($scope[params]);
 
     return $scope;

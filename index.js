@@ -41,13 +41,11 @@ function describe(name, action) {
 
     // factory witch produces function where
     // scope and params objects are merged
-    // NOTE: if scope has $options field it will be owerriden
+    // NOTE: if scope has $name or $params field they will be owerriden
     let description = (name, action, params) => {
         let extent = {
-            $options: {
-                name: name,
-                params: params
-            }
+            $name: name,
+            $params: params
         };
         return (scope) => executor(Object.assign(scope || {}, extent), action);
     };

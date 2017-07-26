@@ -46,11 +46,16 @@ Now here is simple testing scenario:
 ```
 
 This scenario logically consist of one step only wich is called 'i++'.
+
 In reality there are two of them.
+
 First one is 'scenario' and the second one is 'i++'.
+
 This framework doesn't see te difference between step and scenario declarations.
 
-Now lets make our first test more modular
+
+
+Now lets make our first test more modular:
 
 ``` javascript
 let Increment = describe('i++', ($scope) => {  
@@ -68,3 +73,23 @@ describe('scenario', ($scope) => $scope)(scenarioOptions)(scenarioScope)
     .then((result) => console.log('done'))
     .catch((error) => console.log(error));
 ```
+
+## Asynchronous steps
+
+Now lets make our simple scenario asynchronous.
+In order to do so we have to return promise instead of $scope:
+
+``` javascript
+let Increment = describe('i++', ($scope) => {  
+    return new Promise(function(resolve, reject) {
+        setTimeout(() => {
+            $scope.i++;
+            resolve($scope);
+        }, 2000)
+    });
+})
+```
+
+Now test will wait for step 'i++' to resolve, and then continue as usual.
+
+## Defenitions options
