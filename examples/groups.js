@@ -1,4 +1,4 @@
-const describe = require('../index');
+const describe = require('..');
 
 let scenarioOptions = {};
 let scenarioScope = {i: 0};
