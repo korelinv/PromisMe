@@ -21,8 +21,6 @@ let Group = describe('group', ($scope) => {
 });
 
 describe('scenario',($scope) => $scope)(scenarioOptions)(scenarioScope)
-    .then(Increment())
-    .then(Log('i'))
     .then(Group())
     .then((result) => console.log('done'))
     .catch((error) => console.log(error));
