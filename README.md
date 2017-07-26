@@ -105,7 +105,7 @@ We also can pass parameters to step like this:
     .then(Increment(10))
 ```
 
-And in order to acces it within step defenition we have to use $param property of $scope:
+And in order to access it within step definition we have to use $param property of $scope:
 
 ``` javascript
 // declaring step
