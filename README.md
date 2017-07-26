@@ -26,7 +26,7 @@ LoginFeature(options)(scope)
 Although it's not "real" code but you've got the idea.
 
 
-Now here is simple testing scenario:
+Here is simple testing scenario:
 
 ``` javascript
 // declaring scenario
@@ -44,17 +44,6 @@ describe('scenario', ($scope) => $scope)({})({i: 0})
     .catch((error) => console.log(error));
 
 ```
-
-This scenario logically consist of one step only wich is called 'i++'.
-
-In reality there are two of them.
-
-First one is 'scenario' and the second one is 'i++'.
-
-This framework doesn't see te difference between step and scenario declarations.
-
-
-
 Now lets make our first test more modular:
 
 ``` javascript
@@ -79,7 +68,7 @@ describe('scenario', ($scope) => $scope)(scenarioOptions)(scenarioScope)
 
 ## Asynchronous steps
 
-Now lets make our simple scenario asynchronous.
+We can also make it asynchronous.
 
 In order to do so we have to return promise instead of $scope:
 
@@ -94,8 +83,6 @@ let Increment = describe('i++', ($scope) => {
     });
 });
 ```
-
-Now test will wait for step 'i++' to resolve, and then continue as usual.
 
 ## Defenitions options
 
