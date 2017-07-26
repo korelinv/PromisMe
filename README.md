@@ -1,4 +1,4 @@
-# Testrunner
+# PromisMe
 
 Very minimalistic testing framework.
 
