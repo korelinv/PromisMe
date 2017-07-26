@@ -122,7 +122,6 @@ Pretty much everything could be passed as a parameter to a step.
 ## Groups
 
 We can also group steps like this:
-
 ``` javascript
 let Before = describe('before', doSmthBefore);
 let After = describe('after', doSmthAfter);
@@ -130,15 +129,16 @@ let Action = describe('action', performaction);
 let Prepare = describe('prepare', doPreparations);
 let Continue = describe('continue', doSmthElse);
 
+// declaring group
 let Group = describe('group', ($scope) => {
     return Before()($scope)
         .then(Action())
         .then(After());
 });
 ```
-
+and then use as regular step defenition
 ``` javascript
-    .then(Prepare())
-    .then(Group())
-    .then(Continue())
+.then(Prepare())
+.then(Group())
+.then(Continue())
 ```
