@@ -4,6 +4,26 @@ Very minimalistic testing framework.
 
 ## Basics
 
+Main concept is to use promise chains. Like this:
+
+``` javascript
+    LoginFeature(options)(scope)
+        .then(OpenPage('https//:mycoolapp.com'))
+        .then(FillInput({
+            id: 'login',
+            value: 'tester'
+        }))
+        .then(FillInput({
+            id: 'password',
+            value: getPassword('tester')
+        }))
+        .then(ClickButton('login'))
+        .then(WaitForTitle('Welcome!'))
+        .then(ReportSucces)
+        .catch(ReportFailure);
+```
+
+
 Here is simple testing scenario:
 
 ``` javascript
@@ -22,8 +42,6 @@ Here is simple testing scenario:
         .catch((error) => console.log(error));
 
 ```
-
-Main idea is to use promise chains to mantain scenarios step order.
 
 Now lets make our first test more modular
 
