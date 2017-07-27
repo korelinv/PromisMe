@@ -24,7 +24,7 @@ function executor(scope, action) {
         // otherwise we instantly resolve returned promise
         if (_scope instanceof Promise) {
             _scope.then((result) => resolve(result))
-                  .catch((error) => reject(Object.assign(scope, {$error: error}));
+                  .catch((error) => reject(Object.assign(scope, {$error: error})));
         } else {
             resolve(_scope);
         };
