@@ -1,4 +1,4 @@
-# PromisMe
+# PromiseMe
 
 Very minimalistic testing framework.
 
