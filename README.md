@@ -45,17 +45,7 @@ describe('scenario', ($scope) => $scope)({})({i: 0})
 
 ```
 
-This scenario logically consist of one step only wich is called 'i++'.
-
-In reality there are two of them.
-
-First one is 'scenario' and the second one is 'i++'.
-
-This framework doesn't see te difference between step and scenario declarations.
-
-
-
-Now lets make our first test more modular:
+And lets make it more modular:
 
 ``` javascript
 // declaring step
@@ -79,7 +69,7 @@ describe('scenario', ($scope) => $scope)(scenarioOptions)(scenarioScope)
 
 ## Asynchronous steps
 
-Now lets make our simple scenario asynchronous.
+We can make our simple scenario asynchronous.
 
 In order to do so we have to return promise instead of $scope:
 
@@ -94,8 +84,6 @@ let Increment = describe('i++', ($scope) => {
     });
 });
 ```
-
-Now test will wait for step 'i++' to resolve, and then continue as usual.
 
 ## Defenitions options
 
