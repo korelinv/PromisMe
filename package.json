@@ -1,0 +1,25 @@
+{
+  "name": "promiseme",
+  "version": "1.0.0",
+  "description": "minimalistic testing framework",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/korelinv/PromiseMe.git"
+  },
+  "keywords": [
+    "testing"
+  ],
+  "author": "V. Korelin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/korelinv/PromiseMe/issues"
+  },
+  "homepage": "https://github.com/korelinv/PromiseMe#readme"
+}
