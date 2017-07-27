@@ -13,10 +13,10 @@ function executor(scope, action) {
         // we need this to be able to reject errors in sync code
         try {
             _scope = action(scope);
-        } catch (e) {
+        } catch (error) {
             // if smth gets wrong in code result gets rejected
             // and we can process it in catch method
-            reject(Object.assign(scope, {$error: e}));
+            reject(Object.assign(scope, {$error: error}));
         };
 
         // if user defined function is a promis we'll wait for it to resolve
@@ -24,7 +24,7 @@ function executor(scope, action) {
         // otherwise we instantly resolve returned promise
         if (_scope instanceof Promise) {
             _scope.then((result) => resolve(result))
-                  .catch((error) => reject(error));
+                  .catch((error) => reject(Object.assign(scope, {$error: error}));
         } else {
             resolve(_scope);
         };

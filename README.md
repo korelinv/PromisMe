@@ -8,7 +8,7 @@ Main concept is to use promise chains. Like this:
 
 ``` javascript
 LoginFeature(options)(scope)
-    .then(OpenPage('https//:mycoolapp.com'))
+    .then(OpenPage('https://mycoolapp.com'))
     .then(FillInput({
         id: 'login',
         value: 'tester'
