@@ -1,5 +1,5 @@
 {
-  "name": "PromiseMe",
+  "name": "promise-me-framework",
   "version": "1.0.0",
   "description": "minimalistic testing framework",
   "main": "index.js",
