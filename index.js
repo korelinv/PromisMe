@@ -1,3 +1,11 @@
+/** checks if object is promise like
+* @param {Object} object
+* @return {Boolean}
+*/
+function isThenableObject(object) {
+    return !!object.then;
+};
+
 /**
 * resulting function witch got passed to "then" method of promis
 * @param {Object} scope - scope object witch get passed to action
@@ -8,25 +16,30 @@ function executor(scope, action) {
     // creating promise that will be passed
     return new Promise(function(resolve, reject) {
 
-        let _scope;
+        let resultScope;
         // try executing user defined function
         // we need this to be able to reject errors in sync code
         try {
-            _scope = action(scope);
+            resultScope = action(scope) || {};
         } catch (error) {
             // if smth gets wrong in code result gets rejected
             // and we can process it in catch method
-            reject(Object.assign(scope, {$error: error}));
+            resultScope = Object.assign(scope, {$error: error});
+            reject(resultScope);
         };
 
-        // if user defined function is a promis we'll wait for it to resolve
+        // if user defined function is a thenable object we'll wait for it to resolve
         // and then pass result further
         // otherwise we instantly resolve returned promise
-        if (_scope instanceof Promise) {
-            _scope.then((result) => resolve(result))
-                  .catch((error) => reject(Object.assign(scope, {$error: error})));
+        if (isThenableObject(resultScope)) {
+            resultScope.then(
+                (result) => resolve(result),
+                (error) => {
+                    resultScope = Object.assign(scope, {$error: error});
+                    reject(resultScope);
+                });
         } else {
-            resolve(_scope);
+            resolve(resultScope);
         };
     });
 };
