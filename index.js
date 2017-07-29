@@ -24,8 +24,12 @@ function executor(scope, action) {
         // and then pass result further
         // otherwise we instantly resolve returned promise
         if (!!_scope.then) {
-            let resultScope = Object.assign(scope, {$error: error});
-            _scope.then((result) => resolve(result), (error) => reject(resultScope));
+            _scope.then(
+                (result) => resolve(result),
+                (error) => {
+                    let resultScope = Object.assign(scope, {$error: error});
+                    reject(resultScope);
+                });
         } else {
             resolve(_scope);
         };
