@@ -16,15 +16,16 @@ function executor(scope, action) {
         } catch (error) {
             // if smth gets wrong in code result gets rejected
             // and we can process it in catch method
-            reject(Object.assign(scope, {$error: error}));
+            let resultScope = Object.assign(scope, {$error: error});
+            reject(resultScope);
         };
 
-        // if user defined function is a promis we'll wait for it to resolve
+        // if user defined function is a thenable object we'll wait for it to resolve
         // and then pass result further
         // otherwise we instantly resolve returned promise
-        if (_scope instanceof Promise) {
-            _scope.then((result) => resolve(result))
-                  .catch((error) => reject(Object.assign(scope, {$error: error})));
+        if (!!_scope.then) {
+            let resultScope = Object.assign(scope, {$error: error});
+            _scope.then((result) => resolve(result), (error) => reject(resultScope));
         } else {
             resolve(_scope);
         };
