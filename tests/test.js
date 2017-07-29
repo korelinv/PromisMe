@@ -45,12 +45,13 @@ const describe = require('..');
 })();
 
 
-//
+// should pass parameters into description
 (() => {
     let params = {p: 1};
-    let scope = {i: 0};
     let description = describe('', ($scope) => {
-        $scope.i += 1;
-        return $scope;
+        assert.ok($scope.$params.p === params.p);
     });
+
+    description(params)()
+        .catch((scope) => console.log(scope.$error));
 })();
