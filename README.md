@@ -155,7 +155,7 @@ and then use as regular step defenition
 .then(Continue())
 ```
 
-##Aliases
+## Aliases
 
 as you can see we have to invoke description with scope object as parameter in order to create promise chain
 
