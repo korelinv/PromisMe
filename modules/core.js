@@ -45,25 +45,30 @@ function executor(scope, action) {
 };
 
 /**
+* merges parameters and description name into scope and return executor
+* NOTE: if scope has $name or $params field they will be owerriden
+* @param {String} name - name of dectription
+* @param {Function} action - user defined function
+* @param {Object} parmas - parameters object for action
+* @return {Function}
+*/
+function specifyExecutor(name, action, params) {
+    let extent = {
+        $name: name,
+        $params: params
+    };
+    
+    return (scope) => executor(Object.assign(scope || {}, extent), action);
+};
+
+/**
 * executor factory
 * @param {String} name - name of user defined step
 * @param {Function} action - user defined function
 * @return {Function}
 */
 function describe(name, action) {
-
-    // factory witch produces function where
-    // scope and params objects are merged
-    // NOTE: if scope has $name or $params field they will be owerriden
-    let description = (name, action, params) => {
-        let extent = {
-            $name: name,
-            $params: params
-        };
-        return (scope) => executor(Object.assign(scope || {}, extent), action);
-    };
-
-    return (params) => description(name, action, params);
+    return (params) => specifyExecutor(name, action, params);
 };
 
 module.exports = {describe};
