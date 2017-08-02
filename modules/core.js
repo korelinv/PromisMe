@@ -1,74 +1,47 @@
-/** checks if object is promise like
-* @param {Object} object
-* @return {Boolean}
-*/
-function isThenableObject(object) {
-    return !!object.then;
-};
-
 /**
-* resulting function witch got passed to "then" method of promis
-* @param {Object} scope - scope object witch get passed to action
-* @param {Function} action - user defined function
+* Resulting function witch got passed to "then" method
+* @summary Execute user defined function.
+* Then if something in code goes wrong result gets rejected
+* and we can process it in catch method.
+* If user defined function returns "thenable" object we'll wait for it
+* to resolve, then pass result further down the chain.
+* Otherwise we instantly resolve returned promise.
+* @param {Object} context - gets passed to method
+* @param {Function} method
 * @return {Promise}
 */
-function executor(scope, action) {
-    // creating promise that will be passed
+function executor({context, method}) {
     return new Promise(function(resolve, reject) {
+        let result;
+        let {scope, name, params} = context;
 
-        let resultScope;
-        // try executing user defined function
-        // we need this to be able to reject errors in sync code
         try {
-            resultScope = action(scope) || {};
+            result = method(context) || {};
         } catch (error) {
-            // if smth gets wrong in code result gets rejected
-            // and we can process it in catch method
-            resultScope = Object.assign(scope, {$error: error});
-            reject(resultScope);
-        };
-
-        // if user defined function is a thenable object we'll wait for it to resolve
-        // and then pass result further
-        // otherwise we instantly resolve returned promise
-        if (isThenableObject(resultScope)) {
-            resultScope.then(
-                (result) => resolve(result),
-                (error) => {
-                    resultScope = Object.assign(scope, {$error: error});
-                    reject(resultScope);
-                });
-        } else {
-            resolve(resultScope);
+            result = {scope, name, params, error};
+        } finally {
+            if (!!result.then) {
+                result.then((result) => resolve(result), (error) => reject({scope, name, params, error}));
+                return;
+            }
+            if (!!result.error) {
+                reject(result);
+                return;
+            }
+            resolve(result);
         };
     });
 };
 
 /**
-* merges parameters and description name into scope and return executor
-* NOTE: if scope has $name or $params field they will be owerriden
-* @param {String} name - name of dectription
-* @param {Function} action - user defined function
-* @param {Object} parmas - parameters object for action
-* @return {Function}
+* executor wrapper
+* @summary creates paramtrized executor function
+* @param {String} name
+* @param {Function} method
+* @return {Funtion}
 */
-function specifyExecutor(name, action, params) {
-    let extent = {
-        $name: name,
-        $params: params
-    };
-    
-    return (scope) => executor(Object.assign(scope || {}, extent), action);
-};
-
-/**
-* executor factory
-* @param {String} name - name of user defined step
-* @param {Function} action - user defined function
-* @return {Function}
-*/
-function describe(name, action) {
-    return (params) => specifyExecutor(name, action, params);
+function describe(name, method) {
+    return (params) => (scope) => executor({context: {name, params, scope}, method});
 };
 
 module.exports = {describe};

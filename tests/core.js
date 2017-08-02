@@ -13,45 +13,45 @@ const {describe} = require('..').core;
 
 // should share returned object between descriptions
 (() => {
-    let scope = {};
-    let haedDescription = describe('head description name', ($scope) => {
-        $scope.prop = 'a';
-        return $scope;
+    let Scope = {};
+    let haedDescription = describe('head description name', ({scope}) => {
+        scope.prop = 'a';
+        return scope;
     });
-    let tailDescription = describe('tail description name', ($scope) => {
-        assert.ok($scope.prop === 'a');
-        assert.ok($scope === scope);
+    let tailDescription = describe('tail description name', ({scope}) => {
+        assert.ok(scope.prop === 'a');
+        assert.ok(scope === Scope);
     });
 
-    haedDescription()(scope)
+    haedDescription()(Scope)
         .then(tailDescription())
-        .catch((scope) => console.log(scope.$error));
+        .catch(({error}) => console.log(error));
 })();
 
 
 // should pass description name into scope
 // should override description name with current description name
 (() => {
-    let haedDescription = describe('head description name', ($scope) => {
-        assert.ok($scope.$name === 'head description name');
+    let haedDescription = describe('head description name', ({name}) => {
+        assert.ok(name === 'head description name');
     });
-    let tailDescription = describe('tail description name', ($scope) => {
-        assert.ok($scope.$name === 'tail description name');
+    let tailDescription = describe('tail description name', ({name}) => {
+        assert.ok(name === 'tail description name');
     });
 
     haedDescription()({})
         .then(tailDescription())
-        .catch((scope) => console.log(scope.$error));
+        .catch(({error}) => console.log(error));
 })();
 
 
 // should pass parameters into description
 (() => {
-    let params = {p: 1};
-    let description = describe('', ($scope) => {
-        assert.ok($scope.$params.p === params.p);
+    let Params = {p: 1};
+    let description = describe('', ({params}) => {
+        assert.ok(params.p === Params.p);
     });
 
-    description(params)()
-        .catch((scope) => console.log(scope.$error));
+    description(Params)()
+        .catch(({error}) => console.log(error));
 })();
