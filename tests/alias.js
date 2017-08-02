@@ -4,18 +4,7 @@ const {alias} = require('..').alias;
 
 // alias should return promise from description
 (() => {
+    let description = describe('', ({scope}) => {});
 
-    let Scope = {i: 1};
-    let firstDescription = describe('', ({scope}) => {
-        scope.i++;
-
-        return scope;
-    });
-    let secondDescription = describe('', ({scope}) => {
-        assert.ok(2 === scope.i);
-    });
-
-    alias(firstDescription(), Scope)
-        .then(secondDescription())
-        .catch(({error}) => console.log(error));
+    assert.ok(true === (alias(description(), {}) instanceof Promise));
 })();

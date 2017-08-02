@@ -155,7 +155,7 @@ and then use as regular step defenition
 .then(Continue())
 ```
 
-## Aliases
+## Alias module
 
 as you can see we have to invoke description with scope object as parameter in order to create promise chain
 
@@ -184,3 +184,28 @@ let Group = describe('group', ({scope}) => {
 ```
 
 now group description can be red almost like plain english
+
+## Parallel module
+
+we can also execute steps in parallel using paralle module
+
+connect it like so:
+
+``` javascript
+const {parallel} = require('promise-me-framework').parallel;
+```
+
+and use like this:
+
+``` javascript
+.then(parallel([
+    actionOne('some parameter'),
+    actionTwo(),
+    actionThree([1,2,3])
+]))
+.then(({scope}) => someActions(scope))
+```
+
+note that all descriptions will share same scope object
+
+parallel method will pass down an array of resolved promises, or will throw a rejection
