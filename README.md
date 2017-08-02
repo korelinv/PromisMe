@@ -13,15 +13,15 @@ Very minimalistic testing framework.
 ``` javascript
     const {describe} = require('promise-me-framework').core;
 
-    let test = describe('my test\'s name', function($scope) {
+    let test = describe('my test\'s name', function({scope}) {
         console.log('hello');
-        return $scope;
+        return scope;
     });
 
     let scope = {};
 
     test()(scope)
-        .then(($scope) => console.log('done'));
+        .then(() => console.log('done'));
 ```
 
 ## Basics
@@ -54,18 +54,18 @@ Now here is simple testing scenario:
 const {describe} = require('promise-me-framework').core;
 
 // declaring scenario
-describe('scenario', ($scope) => $scope)({})({i: 0})
+describe('scenario', ({scope}) => scope)({})({i: 0})
 
     // declaring step
-    .then(describe('i++', ($scope) => {
-        $scope.i++;
+    .then(describe('i++', ({scope}) => {
+        scope.i++;
 
-        return $scope;
+        return scope;
      })())
 
      // handling scenario results and errors
-    .then((result) => console.log('done'))
-    .catch((error) => console.log(error));
+    .then(() => console.log('done'))
+    .catch(({error}) => console.log(error));
 
 ```
 
@@ -73,22 +73,22 @@ And lets make it more modular:
 
 ``` javascript
 // declaring step
-let Increment = describe('i++', ($scope) => {  
-    $scope.i++;
+let Increment = describe('i++', ({scope}) => {  
+    scope.i++;
 
-    return $scope;
+    return scope;
 });
 
 let scenarioOptions = {};
 let scenarioScope = {increment: 0};
 
 // declaring scenario
-describe('scenario', ($scope) => $scope)(scenarioOptions)(scenarioScope)
+describe('scenario', ({scope}) => scope)(scenarioOptions)(scenarioScope)
     .then(Increment())
 
     // handling scenario results and errors
-    .then((result) => console.log('done'))
-    .catch((error) => console.log(error));
+    .then(() => console.log('done'))
+    .catch(({error}) => console.log(error));
 ```
 
 ## Asynchronous steps
@@ -99,11 +99,11 @@ In order to do so we have to return promise instead of $scope:
 
 ``` javascript
 // declaring step
-let Increment = describe('i++', ($scope) => {  
+let Increment = describe('i++', ({scope}) => {  
     return new Promise(function(resolve, reject) {
         setTimeout(() => {
-            $scope.i++;
-            resolve($scope);
+            scope.i++;
+            resolve(scope);
         }, 2000);
     });
 });
@@ -121,11 +121,11 @@ And in order to access it within step definition we have to use $param property 
 
 ``` javascript
 // declaring step
-let Increment = describe('i++', ($scope) => {  
-    let param = $scope.$params;
-    $scope.i += param;
+let Increment = describe('i++', ({scope, params}) => {  
+    let j = params;
+    scope.i += j;
 
-    return $scope;
+    return scope;
 });
 ```
 
@@ -142,8 +142,8 @@ let Prepare = describe('prepare', doPreparations);
 let Continue = describe('continue', doSmthElse);
 
 // declaring group
-let Group = describe('group', ($scope) => {
-    return Before()($scope)
+let Group = describe('group', ({scope}) => {
+    return Before()(scope)
         .then(Action())
         .then(After());
 });
@@ -161,8 +161,8 @@ as you can see we have to invoke description with scope object as parameter in o
 
 ``` javascript
 // declaring group
-let Group = describe('group', ($scope) => {
-    return Before()($scope)
+let Group = describe('group', ({scope}) => {
+    return Before()(scope)
         .then(Action())
         .then(After());
 });
@@ -176,8 +176,8 @@ we can fix this using alias module like so:
 const {alias} = require('promise-me-framework').alias;
 
 let given = alias;
-let Group = describe('group', ($scope) => {
-    return given(Before(), $scope)
+let Group = describe('group', ({scope}) => {
+    return given(Before(), scope)
         .then(Action())
         .then(After());
 });
