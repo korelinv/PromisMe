@@ -2,12 +2,34 @@
 
 Very minimalistic testing framework.
 
+## Installation
+
+```
+    npm install promise-me-framework
+```
+
+## Usage
+
+``` javascript
+    const {describe} = require('promise-me-framework').core;
+
+    let test = describe('my test\'s name', function($scope) {
+        console.log('hello');
+        return $scope;
+    });
+
+    let scope = {};
+
+    test()(scope)
+        .then(($scope) => console.log('done'));
+```
+
 ## Basics
 
 Main concept is to use promise chains. Like this:
 
 ``` javascript
-LoginFeature(options)(scope)
+given(LoginFeature(options), scope)
     .then(OpenPage('https://mycoolapp.com'))
     .then(FillInput({
         id: 'login',
@@ -29,6 +51,8 @@ Although it's not "real" code but you've got the idea.
 Now here is simple testing scenario:
 
 ``` javascript
+const {describe} = require('promise-me-framework').core;
+
 // declaring scenario
 describe('scenario', ($scope) => $scope)({})({i: 0})
 
@@ -130,3 +154,33 @@ and then use as regular step defenition
 .then(Group())
 .then(Continue())
 ```
+
+## Aliases
+
+as you can see we have to invoke description with scope object as parameter in order to create promise chain
+
+``` javascript
+// declaring group
+let Group = describe('group', ($scope) => {
+    return Before()($scope)
+        .then(Action())
+        .then(After());
+});
+```
+
+it's perfectly fuctional but not quite clear what is happening here
+
+we can fix this using alias module like so:
+
+``` javascript
+const {alias} = require('promise-me-framework').alias;
+
+let given = alias;
+let Group = describe('group', ($scope) => {
+    return given(Before(), $scope)
+        .then(Action())
+        .then(After());
+});
+```
+
+now group description can be red almost like plain english
