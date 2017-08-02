@@ -170,7 +170,7 @@ let Group = describe('group', ($scope) => {
 
 it's perfectly fuctional but not quite clear what is happening here
 
-we can fix this using alias <b>module</b> like so:
+we can fix this using alias module like so:
 
 ``` javascript
 const {alias} = require('promise-me-framework').alias;
