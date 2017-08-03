@@ -5,9 +5,11 @@ const {describe} = require('..').core;
 (() => {
     let description = describe('', () => {});
 
-    assert.ok(description instanceof Function);
-    assert.ok(description() instanceof Function);
-    assert.ok(description()() instanceof Promise);
+    assert.ok(description instanceof Function, 'type consistency - fail\ndescription should be a function');
+    assert.ok(description() instanceof Function, 'type consistency - fail\ndescription() should be a function');
+    assert.ok(description()() instanceof Promise, 'type consistency - fail\ndescription()() should be a promise');
+
+    console.log('type consistency - pass');
 })();
 
 

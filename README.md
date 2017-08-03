@@ -198,11 +198,11 @@ const {parallel} = require('promise-me-framework').parallel;
 and use like this:
 
 ``` javascript
-.then(parallel([
+.then(parallel(
     actionOne('some parameter'),
     actionTwo(),
     actionThree([1,2,3])
-]))
+))
 .then(({scope}) => someActions(scope))
 ```
 

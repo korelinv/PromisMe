@@ -1,9 +1,14 @@
-function parallel(methods) {
+/**
+* returns query of descriptions
+* basicly a promise.all wrapper
+* @param {Function}
+* @return {Promise}
+*/
+function parallel() {
+    let methods = [...arguments];
+
     return (scope) => {
-
-        let query = Array.isArray(methods) ? methods : [methods];
-
-        return Promise.all(query.map((description) => description(scope)));
+        return Promise.all(methods.map((description) => description(scope)));
     };
 };
 
