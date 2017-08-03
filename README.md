@@ -111,6 +111,8 @@ let Increment = describe('i++', ({scope}) => {
 
 ## Defenitions options
 
+### parameters
+
 We can pass parameters to step like this:
 
 ``` javascript
@@ -120,18 +122,36 @@ We can pass parameters to step like this:
 And in order to access it within step definition we have to use <b>params</b> property of context:
 
 ``` javascript
-// declaring step
-let Increment = describe('i++', ({scope, params, name}) => {  
-    console.log(name); // prints 'i++'
+let Increment = describe('i++', ({scope, params}) => {  
     scope.i += params;
-
-    return scope;
 });
 ```
 
 Pretty much everything could be passed as a parameter to a step.
 
-And as you can see we can access description <b>name</b> using name property of context.
+### name
+
+We can access description <b>name</b> using name property of context.
+
+``` javascript
+let Increment = describe('my description', ({name}) => {  
+    console.log(name); // prints 'my description'
+});
+```
+
+### providers
+
+Also we can provide some data to context using <b>providers</b>
+
+``` javascript
+let browser = getBrowser();
+let openUrl = ({params, browser}) => browser.url(params);
+
+let myTest = describe('open url', openUrl, {browser});
+```
+
+Note that provider will be accessible only in context of description where it
+was specified and won't be passed down unless it's done explicitly
 
 ## Groups
 
