@@ -13,15 +13,14 @@
 function executor({context, method}) {
     return new Promise(function(resolve, reject) {
         let result;
-        let {scope, name, params} = context;
 
         try {
             result = method(context) || {};
         } catch (error) {
-            result = {scope, name, params, error};
+            result = Object.assign(context, error);
         } finally {
             if (!!result.then) {
-                result.then((result) => resolve(result), (error) => reject({scope, name, params, error}));
+                result.then((result) => resolve(result), (error) => reject(Object.assign(context, error)));
                 return;
             }
             if (!!result.error) {
@@ -40,8 +39,8 @@ function executor({context, method}) {
 * @param {Function} method
 * @return {Funtion}
 */
-function describe(name, method) {
-    return (params) => (scope) => executor({context: {name, params, scope}, method});
+function describe(name, method, providers) {
+    return (params) => (scope) => executor({context: Object.assign({name, params, scope}, providers || {}), method});
 };
 
 module.exports = {describe};

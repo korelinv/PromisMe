@@ -13,7 +13,7 @@ const {describe} = require('..').core;
 })();
 
 
-// should share returned object between descriptions
+// should share context between descriptions if specified
 (() => {
     let Scope = {};
     let haedDescription = describe('head description name', ({scope}) => {
@@ -31,8 +31,7 @@ const {describe} = require('..').core;
 })();
 
 
-// should pass description name into scope
-// should override description name with current description name
+// should pass description name into context
 (() => {
     let haedDescription = describe('head description name', ({name}) => {
         assert.ok(name === 'head description name');
@@ -56,4 +55,19 @@ const {describe} = require('..').core;
 
     description(Params)()
         .catch(({error}) => console.log(error));
+})();
+
+// providers should be accesable in the context object
+(() => {
+    let Provider = {
+        value: 1,
+        method: (arg) => (arg + 1)
+    };
+    let description = describe('', ({provider}) => {
+        assert.deepEqual(provider, Provider);
+        console.log('providers should be accesable in the context object - pass');
+    }, {provider: Provider});
+
+    description()()
+        .catch(({error}) => console.log('providers should be accesable in the context object - fail\n',error));
 })();
