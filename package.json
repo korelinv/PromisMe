@@ -1,6 +1,6 @@
 {
   "name": "promise-me-framework",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "minimalistic testing framework",
   "main": "index.js",
   "directories": {
