@@ -111,25 +111,27 @@ let Increment = describe('i++', ({scope}) => {
 
 ## Defenitions options
 
-We also can pass parameters to step like this:
+We can pass parameters to step like this:
 
 ``` javascript
     .then(Increment(10))
 ```
 
-And in order to access it within step definition we have to use $param property of $scope:
+And in order to access it within step definition we have to use <b>params</b> property of context:
 
 ``` javascript
 // declaring step
-let Increment = describe('i++', ({scope, params}) => {  
-    let j = params;
-    scope.i += j;
+let Increment = describe('i++', ({scope, params, name}) => {  
+    console.log(name); // prints 'i++'
+    scope.i += params;
 
     return scope;
 });
 ```
 
 Pretty much everything could be passed as a parameter to a step.
+
+And as you can see we can access description <b>name</b> using name property of context.
 
 ## Groups
 
