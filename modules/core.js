@@ -40,7 +40,10 @@ function executor({context, method}) {
 * @return {Funtion}
 */
 function describe(name, method, providers) {
-    return (params) => (scope) => executor({context: Object.assign({name, params, scope}, providers || {}), method});
+    return (params) => (scope) => executor({
+        context: Object.assign({name, params, scope}, providers || {}),
+        method
+    });
 };
 
 module.exports = {describe};
